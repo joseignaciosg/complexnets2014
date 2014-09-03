@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/141/trunk/src/ComplexNetsGui/inc
+END
+LogBinningPolicy.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/108/trunk/src/ComplexNetsGui/inc/LogBinningPolicy.h
+END
+GrapherUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/107/trunk/src/ComplexNetsGui/inc/GrapherUtils.h
+END
+GraphLoadingValidationDialog.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/129/trunk/src/ComplexNetsGui/inc/GraphLoadingValidationDialog.h
+END
+GnuplotConsole.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/103/trunk/src/ComplexNetsGui/inc/GnuplotConsole.h
+END
+mainwindow.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/141/trunk/src/ComplexNetsGui/inc/mainwindow.h
+END

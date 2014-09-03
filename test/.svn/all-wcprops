@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 28
+/svn/!svn/ver/140/trunk/test
+END
+NearestNeighborsDegreeTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/140/trunk/test/NearestNeighborsDegreeTest.cpp
+END
+ClusteringCoefficientTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/140/trunk/test/ClusteringCoefficientTest.cpp
+END
+BetweennessTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/9/trunk/test/BetweennessTest.cpp
+END
+WeightedGraphTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/9/trunk/test/WeightedGraphTest.cpp
+END
+TestMain.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/4/trunk/test/TestMain.cpp
+END
+MolloyReedExample.txt
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/102/trunk/test/MolloyReedExample.txt
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/4/trunk/test/readme.txt
+END
+DegreeDistributionTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/140/trunk/test/DegreeDistributionTest.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/140/trunk/test/CMakeLists.txt
+END
+WeightedNearestNeighborsDegreeTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/16/trunk/test/WeightedNearestNeighborsDegreeTest.cpp
+END
+WeightedClusteringCoefficientTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/16/trunk/test/WeightedClusteringCoefficientTest.cpp
+END
+AdjacencyListGraphTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/9/trunk/test/AdjacencyListGraphTest.cpp
+END
+ShellIndexTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/9/trunk/test/ShellIndexTest.cpp
+END
+TraverserForwardTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/9/trunk/test/TraverserForwardTest.cpp
+END
+SimpleTextGraphReaderTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/9/trunk/test/SimpleTextGraphReaderTest.cpp
+END
+AdjacencyListVertexTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/9/trunk/test/AdjacencyListVertexTest.cpp
+END

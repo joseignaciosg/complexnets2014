@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/86/trunk/test/TestTrees
+END
+tree1.txt
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/9/trunk/test/TestTrees/tree1.txt
+END
+ER_1000.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/86/trunk/test/TestTrees/ER_1000.txt
+END

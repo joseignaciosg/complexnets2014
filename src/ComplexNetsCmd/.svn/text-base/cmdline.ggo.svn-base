@@ -1,0 +1,135 @@
+# This script is licensed under the Academic Free License 3.0.
+# Instituto Tecnológico de Buenos Aires (ITBA).
+# Last modification: December 19th, 2012.
+
+package "complexnets"
+
+version "1.2"
+
+description "ComplexNets description"
+
+# ----- Group to load networks.
+
+defgroup "network-load" groupdesc="Load a network"
+
+	groupoption "input-file" i "Load a network from an input file" group="network-load"
+	string typestr="<filename>"
+
+		option "weighted" - "Specify if the input file is considered as a weighted graph" optional
+		dependon="input-file"
+		option "digraph" - "Specify if the input file is considered as a digraph" optional
+		dependon="input-file"
+
+# ----- Group to create a graph using a model.
+
+defgroup "model" groupdesc="Generate a network using a model"
+	
+	groupoption "erdos" - "Erdos-Renyi model" group="model"
+	groupoption "barabasi" - "Barabasi-Albert model" group="model"
+	groupoption "hot" - "Extended Hot model" group="model"
+	groupoption "molloy" - "Molloy-Reed model" group="model"
+	groupoption "hyperbolic" - "Papadopoulos Hyperbolic model" group="model"
+
+		#Habría que ver si se puenden poner dependon multiples
+		option "n" n "Number of network nodes." int typestr="<number>" optional
+
+		option "p" p "Connection probability (only for Erdos-Renyi model)." float typestr="<probability>" optional
+
+		option "m0" c "Initial number of nodes (only for Barabasi-Albert model)." int typestr="<number>" default="10" optional dependon="barabasi" optional
+		
+		option "m" m "Number of edges to attach from new node to existing nodes (Barabasi-Albert model). Number of edges in each new vertex (Extended Hot Model)."
+		int
+		typestr="<number>"
+		optional
+
+		option "xi" x "Parameter used to select the neighbors for a new vertex (only for Extended Hot Model)."
+		float
+		typestr="<number>"
+		optional
+		dependon="hot"
+
+		option "q" q "Number of edges added in the graph after of connect a vertex (only for Extended Hot Model)."
+		int
+		typestr="<number>"
+		optional
+		dependon="hot"
+
+		option "r" r "Parameter user to selected the edges in the graph after connecting a vertex (only for Extended Hot Model)."
+		float
+		typestr="<number>"
+		optional
+		dependon="hot"
+
+		option "ks" k "Input file that specifies, for each K, how many nodes have that K."
+		string
+		typestr="<filename>"
+		optional
+		dependon="molloy"
+		option "deg" d " Avg degree of nodes parameter (only for hyperbolic model)."
+		float
+		typestr="<number>"
+		default="0.0014"
+		optional
+		dependon="hyperbolic"
+		
+		option "a" a "Radial density of nodes (only for hyperbolic model)."
+		float
+		typestr="<number>"
+		default="0.75"
+		optional
+		dependon="hyperbolic"
+
+
+# ----- Group of network analysis methods.
+
+defgroup "analysis" groupdesc="Network analysis methods"
+	
+	groupoption "betweenness" - "Calculate betweenness of a given node" group="analysis"
+	int typestr="<vertex id>"
+
+	groupoption "ddist" - "Calculate the number of nodes with a given degree" group="analysis"
+	int typestr="<degree>"
+
+	groupoption "clustering" - "Calculate the clustering coefficient of a given node" group="analysis"
+	int typestr="<vertex id>"
+
+	groupoption "knn" - "Calculate the nearest neighbors degree of a given node" group="analysis"
+	int typestr="<vertex id>"
+
+	groupoption "shell" - "Calculate the shell index of a given node" group="analysis"
+	int typestr="<vertex id>"
+
+	groupoption "maxCliqueExact" - "Calculate max clique if time (in seconds) is enough" group="analysis"
+	int typestr="<max time>"
+
+	groupoption "maxCliqueAprox" - "Calculate max clique aproximation" group="analysis"
+
+# ----- Group of network analysis methods.
+
+defgroup "output" groupdesc="Network analysis graphics"
+
+		option "betweenness-output" - "Betweenness vs. Degree" dependon="output-file" optional
+		
+		option "ddist-output" - "Degree distribution" dependon="output-file" optional
+
+		option "log-bin" - "Log-bin the output (only for Degree distribution)" dependon="ddist-output"
+		int typestr="<number of bins>"
+		optional
+		
+		option "clustering-output" - "Clustering coefficient vs. Degree" dependon="output-file" optional
+		
+		option "knn-output" - "Nearest Neighbors Degree vs. Degree" dependon="output-file" optional
+		
+		option "shell-output" - "Shell index vs. Degree" dependon="output-file" optional
+
+		option "maxCliqueExact-output" - "" dependon="output-file" optional int typestr="<max time>"
+		
+		option "maxCliqueAprox-output" - "" dependon="output-file" optional
+
+option "output-file" o "Save the result in an output file"
+string
+typestr="<filename>"
+optional
+
+option "print-deg" - "Print node degree for power law regression"
+optional

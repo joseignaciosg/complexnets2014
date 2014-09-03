@@ -1,0 +1,257 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/143/trunk/src/ComplexNets
+END
+StrenghDistribution.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/9/trunk/src/ComplexNets/StrenghDistribution.h
+END
+ClusteringCoefficient.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/17/trunk/src/ComplexNets/ClusteringCoefficient.h
+END
+MolloyReedGraphReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/122/trunk/src/ComplexNets/MolloyReedGraphReader.h
+END
+DirectedVertexAspect.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/140/trunk/src/ComplexNets/DirectedVertexAspect.h
+END
+TraverserOrdered.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/141/trunk/src/ComplexNets/TraverserOrdered.h
+END
+typedefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/140/trunk/src/ComplexNets/typedefs.h
+END
+GraphFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/141/trunk/src/ComplexNets/GraphFactory.h
+END
+GraphWriter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/140/trunk/src/ComplexNets/GraphWriter.cpp
+END
+IBetweenness.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/13/trunk/src/ComplexNets/IBetweenness.h
+END
+IGraphReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/20/trunk/src/ComplexNets/IGraphReader.h
+END
+DirectedDegreeDistribution.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/129/trunk/src/ComplexNets/DirectedDegreeDistribution.h
+END
+IMaxClique.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/141/trunk/src/ComplexNets/IMaxClique.h
+END
+TraverserForward.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/9/trunk/src/ComplexNets/TraverserForward.h
+END
+IGraphFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/141/trunk/src/ComplexNets/IGraphFactory.h
+END
+GraphExceptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/9/trunk/src/ComplexNets/GraphExceptions.h
+END
+GraphGenerator.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/140/trunk/src/ComplexNets/GraphGenerator.cpp
+END
+WeightedGraphReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/23/trunk/src/ComplexNets/WeightedGraphReader.h
+END
+DirectedGraphAspect.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/129/trunk/src/ComplexNets/DirectedGraphAspect.h
+END
+TraverserBFS.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/121/trunk/src/ComplexNets/TraverserBFS.h
+END
+WeightedGraphFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/141/trunk/src/ComplexNets/WeightedGraphFactory.h
+END
+AdjacencyListVertex.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/140/trunk/src/ComplexNets/AdjacencyListVertex.h
+END
+NearestNeighborsDegree.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/20/trunk/src/ComplexNets/NearestNeighborsDegree.h
+END
+PropertyMap.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/129/trunk/src/ComplexNets/PropertyMap.h
+END
+Betweenness.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/140/trunk/src/ComplexNets/Betweenness.h
+END
+WeightedGraphAspect.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/140/trunk/src/ComplexNets/WeightedGraphAspect.h
+END
+GraphReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/140/trunk/src/ComplexNets/GraphReader.h
+END
+INearestNeighborsDegree.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/15/trunk/src/ComplexNets/INearestNeighborsDegree.h
+END
+IClusteringCoefficient.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/15/trunk/src/ComplexNets/IClusteringCoefficient.h
+END
+MaxClique.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/143/trunk/src/ComplexNets/MaxClique.h
+END
+DegreeDistribution.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/129/trunk/src/ComplexNets/DegreeDistribution.h
+END
+IntegerDistribution.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/141/trunk/src/ComplexNets/IntegerDistribution.h
+END
+DirectedGraphFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/141/trunk/src/ComplexNets/DirectedGraphFactory.h
+END
+GraphWriter.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/130/trunk/src/ComplexNets/GraphWriter.h
+END
+ConexityVerifier.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/122/trunk/src/ComplexNets/ConexityVerifier.h
+END
+WeightedVertexAspect.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/11/trunk/src/ComplexNets/WeightedVertexAspect.h
+END
+WeightedClusteringCoefficient.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/17/trunk/src/ComplexNets/WeightedClusteringCoefficient.h
+END
+AdjacencyListGraph.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/121/trunk/src/ComplexNets/AdjacencyListGraph.h
+END
+WeightedNearestNeighborsDegree.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/20/trunk/src/ComplexNets/WeightedNearestNeighborsDegree.h
+END
+ShellIndex.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/14/trunk/src/ComplexNets/ShellIndex.h
+END
+IDegreeDistribution.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/129/trunk/src/ComplexNets/IDegreeDistribution.h
+END
+IShellIndex.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/13/trunk/src/ComplexNets/IShellIndex.h
+END
+GraphGenerator.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/129/trunk/src/ComplexNets/GraphGenerator.h
+END
