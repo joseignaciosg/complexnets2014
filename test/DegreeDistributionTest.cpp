@@ -5,7 +5,6 @@
 #include <list>
 
 #include "../src/ComplexNets/AdjacencyListVertex.h"
-#include "../src/ComplexNets/AdjacencyListGraph.h"
 #include "../src/ComplexNets/GraphExceptions.h"
 #include "../src/ComplexNets/typedefs.h"
 #include "../src/ComplexNets/DegreeDistribution.h"
