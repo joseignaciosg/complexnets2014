@@ -2,7 +2,8 @@
 #define WEIGHTEDGRAPHFACTORY_H
 
 #include "IGraphFactory.h"
-//#include "WeightedBetweenness.h"
+#include "WeightedBetweenness.h"
+#include "IWeightedBetweenness.h"
 #include "WeightedClusteringCoefficient.h"
 #include "WeightedNearestNeighborsDegree.h"
 //#include "WeightedShellIndex.h"
@@ -14,14 +15,15 @@ namespace graphpp
 template<class Graph, class Vertex>
 class WeightedGraphFactory: public IGraphFactory<Graph, Vertex>
 {
+public:
     virtual IGraphReader<Graph, Vertex>* createGraphReader()
     {
         return new WeightedGraphReader<Graph, Vertex>();
     }
-    virtual IBetweenness<Graph, Vertex>* createBetweenness(Graph&)
+    virtual IWeightedBetweenness<WeightedGraph, WeightedVertex>* createBetweenness(WeightedGraph& g)
     {
-        //return new WeightedBetweenness<Graph,Vertex>();
-        return NULL;
+	//return new Betweenness<Graph, Vertex>(g);
+	return new WeightedBetweenness<WeightedGraph, WeightedVertex>(g);
     }
     virtual IClusteringCoefficient<Graph, Vertex>* createClusteringCoefficient()
     {

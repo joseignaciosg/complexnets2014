@@ -180,10 +180,10 @@ int main(int argc, char* argv[])
 		}
 		
 		if (args_info->betweenness_given) {
-			if (state->isWeighted()) {
-				errorMessage("Betweenness for weighted graphs is not supported.");
-				ERROR_EXIT;
-			}else{
+			//if (state->isWeighted()) {
+			//	errorMessage("Betweenness for weighted graphs is not supported.");
+			//	ERROR_EXIT;
+			//}else{
 				int vertex_id = args_info->betweenness_arg;
 				double ret = state->betweenness((unsigned int)args_info->betweenness_arg);
 				if(ret != -1) {
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
 				}else {
 					errorMessage("Invalid vertex id");
 				}
-			}
+			//}
 		} else if (args_info->ddist_given) {
 			int degree = args_info->ddist_arg;
 			if (!state->isDigraph()) {
@@ -288,13 +288,13 @@ int main(int argc, char* argv[])
 				string functionMessage = "";
 
 				if (args_info->betweenness_output_given) {
-					if (state->isWeighted()) {
-						errorMessage("Betweenness for weighted graphs is not supported.");
-						ERROR_EXIT;
-					} else {
+					//if (state->isWeighted()) {
+					//	errorMessage("Betweenness for weighted graphs is not supported.");
+					//	ERROR_EXIT;
+					//} else {
 						state->exportBetweennessVsDegree(path);
 						functionMessage = "betweenness";
-					}
+					//}
 				} else if (args_info->ddist_output_given) {
 					state->exportDegreeDistribution(path, args_info->log_bin_given, args_info->log_bin_arg);
 					functionMessage = "degreeDistribution";

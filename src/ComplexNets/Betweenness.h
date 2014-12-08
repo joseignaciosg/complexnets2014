@@ -6,7 +6,7 @@
 #include <list>
 
 #include "mili/mili.h"
-#include "IBetweenness.h"
+#include "IWeightedBetweenness.h"
 
 namespace graphpp
 {
@@ -43,6 +43,7 @@ private:
             Vertex* s = *iter;
             std::stack<Vertex*> stack;
             std::queue<Vertex*> queue;
+	    std::priority_queue<Vertex*> pqueue;
             std::map<typename Vertex::VertexId, std::list<typename Vertex::VertexId> > p;
             std::map<typename Vertex::VertexId, double> sigma;
             std::map<typename Vertex::VertexId, double> d;
