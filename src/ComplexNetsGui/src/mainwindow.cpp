@@ -222,8 +222,25 @@ void MainWindow::onNetworkLoad(const bool weightedgraph, const bool digraph, con
 		ui->actionExportMaxClique_distribution->setEnabled(true);
 		ui->actionExportMaxCliqueExact_distribution->setEnabled(true);
 	}
+
+	if (weightedgraph){
+		ui->actionBetweenness->setEnabled(false);
+		ui->actionBetweenness_vs_Degree->setEnabled(false);
+		ui->actionMaxClique->setEnabled(false);
+		ui->action_maxClique_plotting->setEnabled(false);
+		ui->actionMaxCliqueExact->setEnabled(false);
+		ui->action_maxCliqueExact_plotting->setEnabled(false);
+		ui->actionShell_index->setEnabled(false);
+		ui->actionShell_Index_vs_Degree->setEnabled(false);
+		//export menue
+		ui->actionExportBetweenness_vs_Degree->setEnabled(false);
+		ui->actionExportShell_Index_vs_Degree->setEnabled(false);
+		ui->actionExportMaxClique_distribution->setEnabled(false);
+		ui->actionExportMaxCliqueExact_distribution->setEnabled(false);
 	
-    ui->actionDegree_distribution->setEnabled(true);
+	}
+	
+    	ui->actionDegree_distribution->setEnabled(true);
 	ui->actionDegree_distribution_plotting->setEnabled(true);
 	ui->actionExportDegree_distribution->setEnabled(true);
 	ui->actionClose_current_network->setEnabled(true);
