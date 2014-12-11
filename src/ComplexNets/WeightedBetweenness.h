@@ -10,6 +10,32 @@
 
 namespace graphpp
 {
+class BrandesNodeComparatorLargerFirst {
+    public:
+    //TODO try this out
+    bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
+    {
+	if ( v1->distance > v1->distance )
+	{
+		return true;
+	}
+       return false;
+    }
+};
+
+class BrandesNodeComparatorSmallerFirst {
+    public:
+    //TODO try this out
+    bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
+    {
+        if ( v1->distance < v1->distance )
+        {
+                return true;
+	}
+       return false;
+    }
+};
+
 template <class Graph, class Vertex>
 class WeightedBetweenness : public IBetweenness<Graph, Vertex>
 {
@@ -43,16 +69,17 @@ private:
         while (!iter.end())
         {
             Vertex* s = *iter;
-	    std::priority_queue<Vertex*> S;
-	    std::priority_queue<Vertex*> Q;
+	    std::priority_queue<Vertex*, std::vector<Vertex*>, BrandesNodeComparatorLargerFirst> S;
+            std::priority_queue<Vertex*, std::vector<Vertex*>, BrandesNodeComparatorSmallerFirst> Q;
             std::map<typename Vertex::VertexId, std::list<typename Vertex::VertexId> > p;
             std::map<typename Vertex::VertexId, double> sigma;
             std::map<typename Vertex::VertexId, double> d;
             std::map<typename Vertex::VertexId, double> delta;
 
             initMap(g, s->getVertexId(), sigma, 0.0, 1.0);
-            initMap(g, s->getVertexId(), d, -1.0, 0.0);
             initMap(g, s->getVertexId(), delta, 0.0, 0.0);
+	    initDistances(g, -1.0);
+	    s->distance=0.0;
 
             Q.push(s);
 
@@ -69,15 +96,19 @@ private:
                 {
                     //Vertex* w = *neighbourIter;
 		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
-
+		    printf("distance: %f\n",w->distance);
+		    double aux = w->distance;
+		    w->distance = 3.0;
+		    printf("distance2: %f\n",w->distance);
+	            w->distance = aux;
                     //w found for the first time?
-		    double alt = d[w->getVertexId()] + v->edgeWeight(w);
-                    double wValue = d[w->getVertexId()];
+		    double alt = w->distance + v->edgeWeight(w);
+                    double wValue = w->distance;
 
                     //double vValue = d[v->getVertexId()];
                     if ( alt < wValue )
                     {
-                        d[w->getVertexId()] = alt;
+			w->distance = alt;
                         if ( wValue == -1  )
 			{
 			   Q.push(w);
@@ -87,7 +118,7 @@ private:
 			p[w->getVertexId()] = {};
 	            }
                     //shortest path to w via v?
-                    if ( d[w->getVertexId()] == alt )
+                    if ( w->distance == alt )
                     {
 			sigma[w->getVertexId()] =  sigma[w->getVertexId()] + sigma[v->getVertexId()];
                         p[w->getVertexId()].push_back(v->getVertexId());
@@ -98,6 +129,13 @@ private:
                 }
                 
 	      }
+	
+	//debugging	
+  	while (!S.empty())
+	{
+		std::cout << S.top()->getVertexId() << std::endl;
+		S.pop();
+	}
                 
                 //S returns vertices in order of non-increasing distance from s
              while (!S.empty())
@@ -141,6 +179,17 @@ private:
         }
         //modify the value associated to key 'vertexId' 
         m[vertexId]=distinguishedValue;
+    }
+
+    void initDistances(Graph& g,double commonValue)
+    {
+        VerticesIterator it = g.verticesIterator();
+        while (!it.end())
+        {
+            Vertex* v = *it;
+	    v->distance = commonValue;
+            ++it;
+        }
     }
 
     BetweennessContainer betweenness;
