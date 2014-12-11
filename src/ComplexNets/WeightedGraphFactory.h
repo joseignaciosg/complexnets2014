@@ -8,6 +8,8 @@
 //#include "WeightedShellIndex.h"
 #include "WeightedGraphReader.h"
 #include "DegreeDistribution.h"
+#include "Betweenness.h"
+#include "IBetweenness.h"
 
 namespace graphpp
 {
@@ -18,10 +20,11 @@ class WeightedGraphFactory: public IGraphFactory<Graph, Vertex>
     {
         return new WeightedGraphReader<Graph, Vertex>();
     }
-    virtual IBetweenness<Graph, Vertex>* createBetweenness(Graph&)
+    virtual IBetweenness<Graph, Vertex>* createBetweenness(Graph& g)
     {
         //return new WeightedBetweenness<Graph,Vertex>();
-        return NULL;
+        return new Betweenness<Graph,Vertex>(g);
+        //return NULL;
     }
     virtual IClusteringCoefficient<Graph, Vertex>* createClusteringCoefficient()
     {

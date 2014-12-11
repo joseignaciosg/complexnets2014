@@ -65,7 +65,9 @@ private:
 
                 while (!neighbourIter.end())
                 {
-                    Vertex* w = *neighbourIter;
+                    //Vertex* w = *neighbourIter;
+		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
+
                     //w found for the first time?
                     double wValue = d[w->getVertexId()];
                     //double vValue = d[v->getVertexId()];

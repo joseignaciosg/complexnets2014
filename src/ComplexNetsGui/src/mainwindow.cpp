@@ -224,8 +224,8 @@ void MainWindow::onNetworkLoad(const bool weightedgraph, const bool digraph, con
 	}
 
 	if (weightedgraph){
-		ui->actionBetweenness->setEnabled(false);
-		ui->actionBetweenness_vs_Degree->setEnabled(false);
+		ui->actionBetweenness->setEnabled(true);
+		ui->actionBetweenness_vs_Degree->setEnabled(true);
 		ui->actionMaxClique->setEnabled(false);
 		ui->action_maxClique_plotting->setEnabled(false);
 		ui->actionMaxCliqueExact->setEnabled(false);
@@ -233,7 +233,7 @@ void MainWindow::onNetworkLoad(const bool weightedgraph, const bool digraph, con
 		ui->actionShell_index->setEnabled(false);
 		ui->actionShell_Index_vs_Degree->setEnabled(false);
 		//export menue
-		ui->actionExportBetweenness_vs_Degree->setEnabled(false);
+		ui->actionExportBetweenness_vs_Degree->setEnabled(true);
 		ui->actionExportShell_Index_vs_Degree->setEnabled(false);
 		ui->actionExportMaxClique_distribution->setEnabled(false);
 		ui->actionExportMaxCliqueExact_distribution->setEnabled(false);
@@ -446,11 +446,11 @@ void MainWindow::on_actionMaxClique_generic_triggered(bool exact)
 
 void MainWindow::on_actionBetweenness_triggered()
 {
-    if (this->weightedgraph)
-    {
-        ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
-        return;
-    }
+    //if (this->weightedgraph)
+    //{
+    //    ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
+    //    return;
+    //}
     QString vertexId = inputId("Vertex id:");
     QString ret;
     double vertexBetweenness;
@@ -570,22 +570,34 @@ void MainWindow::computeBetweenness()
     if (!propertyMap.containsPropertySet("betweenness"))
     {
         ui->textBrowser->append("Betweenness has not been previously computed. Computing now.");
-        if (this->weightedgraph)
+        IBetweenness<WeightedGraph, WeightedVertex>* wbetweenness;
+
+	if (this->weightedgraph)
         {
-            ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
-            return;
+            //ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
+            //return;
+ 	    printf("\nENTERING BETWEENNESS\n");
+            IBetweenness<WeightedGraph, WeightedVertex>* betweenness = weightedFactory->createBetweenness(weightedGraph);
+            IBetweenness<WeightedGraph, WeightedVertex>::BetweennessIterator it = betweenness->iterator();
+            while (!it.end())
+            {
+               propertyMap.addProperty<double>("betweenness", to_string<unsigned int>(it->first), it->second);
+               ++it;
+            }
+            delete betweenness;
         }
         else
         {
             IBetweenness<Graph, Vertex>* betweenness = factory->createBetweenness(graph);
             IBetweenness<Graph, Vertex>::BetweennessIterator it = betweenness->iterator();
-            while (!it.end())
+       	    while (!it.end())
             {
-                propertyMap.addProperty<double>("betweenness", to_string<unsigned int>(it->first), it->second);
-                ++it;
+               propertyMap.addProperty<double>("betweenness", to_string<unsigned int>(it->first), it->second);
+               ++it;
             }
-            delete betweenness;
-        }
+	    delete betweenness;
+	}
+        
     }
 }
 
