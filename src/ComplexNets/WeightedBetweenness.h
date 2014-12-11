@@ -23,6 +23,7 @@ public:
 
     WeightedBetweenness(Graph& g)
     {
+	printf("INSIDE WEIGHTEDBETWEENNESS\n");
         initMap(g, 1, betweenness, 0.0, 0.0);
         calculateBetweenness(g);
     }
@@ -36,13 +37,14 @@ private:
 
     void calculateBetweenness(Graph& g)
     {
+	printf("CALCULATING BETWEENNESS INSIDE WEIGHTEDBETWEENNESS\n");
         VerticesIterator iter = g.verticesIterator();
 
         while (!iter.end())
         {
             Vertex* s = *iter;
-            std::stack<Vertex*> stack;
-            std::queue<Vertex*> queue;
+	    std::priority_queue<Vertex*> S;
+	    std::priority_queue<Vertex*> Q;
             std::map<typename Vertex::VertexId, std::list<typename Vertex::VertexId> > p;
             std::map<typename Vertex::VertexId, double> sigma;
             std::map<typename Vertex::VertexId, double> d;
@@ -52,13 +54,13 @@ private:
             initMap(g, s->getVertexId(), d, -1.0, 0.0);
             initMap(g, s->getVertexId(), delta, 0.0, 0.0);
 
-            queue.push(s);
+            Q.push(s);
 
-            while (!queue.empty())
+            while (!Q.empty())
             {
-                Vertex* v = queue.front();
-                queue.pop();
-                stack.push(v);
+                Vertex* v = Q.top();
+		Q.pop();
+                S.push(v);
 
                 //iterate through v's neighbors
                 NeighbourIterator neighbourIter = v->neighborsIterator();
@@ -69,16 +71,23 @@ private:
 		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
 
                     //w found for the first time?
+		    double alt = d[w->getVertexId()] + v->edgeWeight(w);
                     double wValue = d[w->getVertexId()];
+
                     //double vValue = d[v->getVertexId()];
-                    if (wValue < 0)
+                    if ( alt < wValue )
                     {
-                        queue.push(w);
-                        d[w->getVertexId()] = d[v->getVertexId()] + 1;
-                        
-	                    }
+                        d[w->getVertexId()] = alt;
+                        if ( wValue == -1  )
+			{
+			   Q.push(w);
+			}
+                        sigma[w->getVertexId()] =  0.0;
+			//clearPredecessorsOf(w);   
+			p[w->getVertexId()] = {};
+	            }
                     //shortest path to w via v?
-                    if (d[w->getVertexId()] == (d[v->getVertexId()] + 1))
+                    if ( d[w->getVertexId()] == alt )
                     {
 			sigma[w->getVertexId()] =  sigma[w->getVertexId()] + sigma[v->getVertexId()];
                         p[w->getVertexId()].push_back(v->getVertexId());
@@ -91,11 +100,11 @@ private:
 	      }
                 
                 //S returns vertices in order of non-increasing distance from s
-             while (!stack.empty())
+             while (!S.empty())
                 {
 
-                    Vertex* w = stack.top();
-                    stack.pop();
+                    Vertex* w = S.top();
+                    S.pop();
 		    
                     std::list<typename Vertex::VertexId> vertices = p[w->getVertexId()];
                     typename std::list<typename Vertex::VertexId>::iterator it;
