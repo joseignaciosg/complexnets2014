@@ -1,30 +1,27 @@
-#ifndef WEIGHTED_BETWEENNESS_H
-#define WEIGHTED_BETWEENNESS_H
+#ifndef WEIGHTEDBETWEENNESS_H
+#define WEIGHTEDBETWEENNESS_H
 #include <stack>
 #include <queue>
 #include <vector>
 #include <list>
 
 #include "mili/mili.h"
-#include "IWeightedBetweenness.h"
-#include "WeightedVertexAspect.h"
-#include "WeightedGraphAspect.h"
+#include "IBetweenness.h"
 
 namespace graphpp
 {
-template <class WeightedGraph, class WeightedVertex>
-class WeightedBetweenness : public IWeightedBetweenness<WeightedGraph, WeightedVertex>
+template <class Graph, class Vertex>
+class WeightedBetweenness : public IBetweenness<Graph, Vertex>
 {
-
 public:
 
-    typedef typename IWeightedBetweenness<WeightedGraph, WeightedVertex>::BetweennessContainer BetweennessContainer;
-    typedef typename IWeightedBetweenness<WeightedGraph, WeightedVertex>::BetweennessIterator BetweennessIterator;
-    typedef typename WeightedGraph::VerticesIterator VerticesIterator;
-    typedef typename WeightedVertex::VerticesIterator NeighbourIterator;
+    typedef typename IBetweenness<Graph, Vertex>::BetweennessContainer BetweennessContainer;
+    typedef typename IBetweenness<Graph, Vertex>::BetweennessIterator BetweennessIterator;
+    typedef typename Graph::VerticesIterator VerticesIterator;
+    typedef typename Vertex::VerticesIterator NeighbourIterator;
 
 
-    WeightedBetweenness(WeightedGraph& g)
+    WeightedBetweenness(Graph& g)
     {
         initMap(g, 1, betweenness, 0.0, 0.0);
         calculateBetweenness(g);
@@ -37,49 +34,77 @@ public:
 
 private:
 
-    std::map<typename WeightedVertex::VertexId, double> sigma;
-    std::map<typename WeightedVertex::VertexId, double> d;
-    std::map<typename WeightedVertex::VertexId, double> delta;
-    std::map<typename WeightedVertex::VertexId, std::list<typename WeightedVertex::VertexId> > p;
-
-    void calculateBetweenness(WeightedGraph& g)
+    void calculateBetweenness(Graph& g)
     {
         VerticesIterator iter = g.verticesIterator();
 
         while (!iter.end())
         {
-            WeightedVertex* s = *iter;
-            std::stack<WeightedVertex*> stack;
-            std::queue<WeightedVertex*> queue;
-	    std::priority_queue<WeightedVertex*> pqueue;
-            //std::map<typename Vertex::VertexId, std::list<typename Vertex::VertexId> > p;
-            //std::map<typename Vertex::VertexId, double> sigma;
-            //std::map<typename Vertex::VertexId, double> d;
-            //std::map<typename Vertex::VertexId, double> delta;
+            Vertex* s = *iter;
+            std::stack<Vertex*> stack;
+            std::queue<Vertex*> queue;
+            std::map<typename Vertex::VertexId, std::list<typename Vertex::VertexId> > p;
+            std::map<typename Vertex::VertexId, double> sigma;
+            std::map<typename Vertex::VertexId, double> d;
+            std::map<typename Vertex::VertexId, double> delta;
 
             initMap(g, s->getVertexId(), sigma, 0.0, 1.0);
             initMap(g, s->getVertexId(), d, -1.0, 0.0);
             initMap(g, s->getVertexId(), delta, 0.0, 0.0);
 
-	    
-	    pqueue =  dijkstraExplore(s, g);
+            queue.push(s);
 
-             //S returns vertices in order of non-increasing distance from s
-             while (!pqueue.empty())
-             {
+            while (!queue.empty())
+            {
+                Vertex* v = queue.front();
+                queue.pop();
+                stack.push(v);
 
-                    WeightedVertex* w = pqueue.pop();
+                //iterate through v's neighbors
+                NeighbourIterator neighbourIter = v->neighborsIterator();
+
+                while (!neighbourIter.end())
+                {
+                    //Vertex* w = *neighbourIter;
+		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
+
+                    //w found for the first time?
+                    double wValue = d[w->getVertexId()];
+                    //double vValue = d[v->getVertexId()];
+                    if (wValue < 0)
+                    {
+                        queue.push(w);
+                        d[w->getVertexId()] = d[v->getVertexId()] + 1;
+                        
+	                    }
+                    //shortest path to w via v?
+                    if (d[w->getVertexId()] == (d[v->getVertexId()] + 1))
+                    {
+			sigma[w->getVertexId()] =  sigma[w->getVertexId()] + sigma[v->getVertexId()];
+                        p[w->getVertexId()].push_back(v->getVertexId());
+                        
+                    }
+		      
+                    ++neighbourIter;
+                }
+                
+	      }
+                
+                //S returns vertices in order of non-increasing distance from s
+             while (!stack.empty())
+                {
+
+                    Vertex* w = stack.top();
+                    stack.pop();
 		    
-		    //predecesors
-                    std::list<typename WeightedVertex::VertexId> vertices = p[w->getVertexId()];
-                    typename std::list<typename WeightedVertex::VertexId>::iterator it;
+                    std::list<typename Vertex::VertexId> vertices = p[w->getVertexId()];
+                    typename std::list<typename Vertex::VertexId>::iterator it;
 		     
                     for (it = vertices.begin(); it != vertices.end(); ++it)
                     {
 			
-                        typename WeightedVertex::VertexId v = *it;
-			double c = ( (1.0 + delta[w->getVertexId()]) * (sigma[v] / sigma[w->getVertexId()]) ); 
-                        delta[v] = delta[v] + c;
+                        typename Vertex::VertexId v = *it;
+                        delta[v] = delta[v] + ( (1 + delta[w->getVertexId()]) * (sigma[v] / sigma[w->getVertexId()]) );
                          					 
                     }
 		    
@@ -87,70 +112,13 @@ private:
                     {
 			 betweenness[w->getVertexId()] += delta[w->getVertexId()];
                     }
-              }
+                }
             
             ++iter;
         }
     }
 
-    std::priority_queue<WeightedVertex*> dijkstraExplore(WeightedVertex& s ,WeightedGraph& g)
-    {
-	std::priority_queue<WeightedVertex*> S;
-	std::priority_queue<WeightedVertex*> Q;
-	initMap(g, s->getVertexId(), sigma, 0.0, 1.0);
-	initMap(g, s->getVertexId(), d, 0.0, 0.0);
-	initMap(g, s->getVertexId(), delta, 0.0, 0.0);
-	Q.push(s);
-	
-	while(!Q.empty())
-	{
-		WeightedVertex* v = Q.pop();
-		
-		S.push(v);
-                
-		NeighbourIterator neighbourIter = v->neighborsIterator();
-
-                while (!neighbourIter.end())
-                {
-                    WeightedVertex* w = *neighbourIter;
-
-                    //w found for the first time?
-		    double alt = d[v->getVertexId()] + v->edgeWeight(w);
-                    double wValue = d[w->getVertexId()];
-			
-                    //double vValue = d[v->getVertexId()];
-                    if (alt < wValue)
-                    {
-                        d[w->getVertexId()] = alt;
-			//update priority w in S -> falta el contains
-			S.pop(w);
-			S.push(w);
-			//update priority w in Q -> falta el contains
-			Q.pop(w);
-			Q.push(w);
-			if (wValue > 0)
-			{
-				Q.push(w);
-			}
-                        sigma[w->getVertexId()] =  0.0;
-			//clear predecesors of w
-                    }
-                    //shortest path to w via v?
-                    if (d[w->getVertexId()] == alt )
-                    {
-                        sigma[w->getVertexId()] =  sigma[w->getVertexId()] + sigma[v->getVertexId()];
-                        p[w->getVertexId()].push_back(v->getVertexId());
-                    }
-
-                    ++neighbourIter;
-                }
-		
-	}
-	return S;
-	
-    }
-
-    void initMap(WeightedGraph& g, unsigned int vertexId, std::map<typename WeightedVertex::VertexId, double>& m,
+    void initMap(Graph& g, unsigned int vertexId, std::map<typename Vertex::VertexId, double>& m,
                  double commonValue, double distinguishedValue)
     {
         VerticesIterator it = g.verticesIterator();
@@ -158,8 +126,8 @@ private:
         //initialize all elements in zero, except for the current vertex
         while (!it.end())
         {
-            WeightedVertex* v = *it;
-            m.insert(std::pair<typename WeightedVertex::VertexId, double>(v->getVertexId(), commonValue));
+            Vertex* v = *it;
+            m.insert(std::pair<typename Vertex::VertexId, double>(v->getVertexId(), commonValue));
 	    ++it;
         }
         //modify the value associated to key 'vertexId' 

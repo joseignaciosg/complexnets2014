@@ -2,7 +2,7 @@
 #define WEIGHTEDGRAPHFACTORY_H
 
 #include "IGraphFactory.h"
-//#include "WeightedBetweenness.h"
+#include "WeightedBetweenness.h"
 #include "WeightedClusteringCoefficient.h"
 #include "WeightedNearestNeighborsDegree.h"
 //#include "WeightedShellIndex.h"
@@ -22,9 +22,7 @@ class WeightedGraphFactory: public IGraphFactory<Graph, Vertex>
     }
     virtual IBetweenness<Graph, Vertex>* createBetweenness(Graph& g)
     {
-        //return new WeightedBetweenness<Graph,Vertex>();
-        return new Betweenness<Graph,Vertex>(g);
-        //return NULL;
+        return new WeightedBetweenness<Graph,Vertex>(g);
     }
     virtual IClusteringCoefficient<Graph, Vertex>* createClusteringCoefficient()
     {
