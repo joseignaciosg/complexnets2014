@@ -15,7 +15,7 @@ class BrandesNodeComparatorLargerFirst {
     //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
-	if ( v1->distance > v1->distance )
+	if ( v1->distance > v2->distance )
 	{
 		return true;
 	}
@@ -28,7 +28,7 @@ class BrandesNodeComparatorSmallerFirst {
     //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
-        if ( v1->distance < v1->distance )
+        if ( v1->distance < v2->distance )
         {
                 return true;
 	}
@@ -85,37 +85,38 @@ private:
 
             while (!Q.empty())
             {
+		printPQ(Q);
                 Vertex* v = Q.top();
 		Q.pop();
                 S.push(v);
 
                 //iterate through v's neighbors
                 NeighbourIterator neighbourIter = v->neighborsIterator();
+		printf("source %i \n",v->getVertexId());
 
                 while (!neighbourIter.end())
                 {
                     //Vertex* w = *neighbourIter;
 		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
-		    printf("distance: %f\n",w->distance);
-		    double aux = w->distance;
-		    w->distance = 3.0;
-		    printf("distance2: %f\n",w->distance);
-	            w->distance = aux;
-                    //w found for the first time?
-		    double alt = w->distance + v->edgeWeight(w);
+		    printf("neighbor %i \n",w->getVertexId());
+		    double alt = v->distance + v->edgeWeight(w);
+		    //printf("alt: %f\n",alt);
                     double wValue = w->distance;
+		    //printf("wValue: %f\n",wValue);
 
                     //double vValue = d[v->getVertexId()];
+		    printf("alt =  %f < wValue = %f \n", alt , wValue);
                     if ( alt < wValue )
                     {
+			printf("INSIDE \n");
 			w->distance = alt;
                         if ( wValue == -1  )
 			{
 			   Q.push(w);
 			}
                         sigma[w->getVertexId()] =  0.0;
-			//clearPredecessorsOf(w);   
-			p[w->getVertexId()] = {};
+			//clearPredecessor2sOf(w);   
+			p[w->getVertexId()].clear();;
 	            }
                     //shortest path to w via v?
                     if ( w->distance == alt )
@@ -124,18 +125,19 @@ private:
                         p[w->getVertexId()].push_back(v->getVertexId());
                         
                     }
-		      
+		    
+		    printf("distance: %f\n",w->distance);  
                     ++neighbourIter;
                 }
                 
 	      }
 	
 	//debugging	
-  	while (!S.empty())
-	{
-		std::cout << S.top()->getVertexId() << std::endl;
-		S.pop();
-	}
+  	//while (!S.empty())
+	//{
+	//	std::cout << S.top()->getVertexId() << std::endl;
+	//	S.pop();
+	//}
                 
                 //S returns vertices in order of non-increasing distance from s
              while (!S.empty())
@@ -190,6 +192,20 @@ private:
 	    v->distance = commonValue;
             ++it;
         }
+    }
+ 
+    void printPQ(std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorSmallerFirst>& S)
+    {
+	std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorSmallerFirst>  pq	= S;
+	while (!pq.empty())
+	{
+		Vertex* v = pq.top();
+		printf("[ ");
+ 		printf("%d , ", v->getVertexId() );
+		printf("] \n "); 
+		pq.pop();
+
+	} 
     }
 
     BetweennessContainer betweenness;
