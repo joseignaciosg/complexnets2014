@@ -113,6 +113,7 @@ private:
                     {
 			printf("INSIDE \n");
 			w->distance = alt;
+			std::make_heap(const_cast<Vertex**>(&Q.top()),const_cast<Vertex**>(&Q.top()) + Q.size(),BrandesNodeComparatorSmallerFirst());
                         if ( wValue == INF  )
 			{
 			   Q.push(w);
