@@ -15,7 +15,7 @@ class BrandesNodeComparatorLargerFirst {
     //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
-	if ( v1->distance > v2->distance )
+	if ( v1->distance < v2->distance )
 	{
 		return true;
 	}
@@ -28,7 +28,7 @@ class BrandesNodeComparatorSmallerFirst {
     //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
-        if ( v1->distance < v2->distance )
+        if ( v1->distance > v2->distance )
         {
                 return true;
 	}
@@ -61,6 +61,8 @@ public:
 
 private:
 
+    double INF = 1.0/0.0;
+
     void calculateBetweenness(Graph& g)
     {
 	printf("CALCULATING BETWEENNESS INSIDE WEIGHTEDBETWEENNESS\n");
@@ -78,7 +80,7 @@ private:
 
             initMap(g, s->getVertexId(), sigma, 0.0, 1.0);
             initMap(g, s->getVertexId(), delta, 0.0, 0.0);
-	    initDistances(g, -1.0);
+	    initDistances(g, INF);
 	    s->distance=0.0;
 
             Q.push(s);
@@ -105,12 +107,13 @@ private:
 		    //printf("wValue: %f\n",wValue);
 
                     //double vValue = d[v->getVertexId()];
+	            printf("dist: %f / weight:  %f \n", v->distance, v->edgeWeight(w));
 		    printf("alt =  %f < wValue = %f \n", alt , wValue);
                     if ( alt < wValue )
                     {
 			printf("INSIDE \n");
 			w->distance = alt;
-                        if ( wValue == -1  )
+                        if ( wValue == INF  )
 			{
 			   Q.push(w);
 			}
@@ -126,40 +129,45 @@ private:
                         
                     }
 		    
-		    printf("distance: %f\n",w->distance);  
+		    printf("neighbor distance: %f\n",w->distance); 
+		    printf("neighbor SIGMA: %f\n",sigma[w->getVertexId()]); 
                     ++neighbourIter;
                 }
                 
 	      }
 	
-	//debugging	
-  	//while (!S.empty())
-	//{
-	//	std::cout << S.top()->getVertexId() << std::endl;
-	//	S.pop();
-	//}
                 
-                //S returns vertices in order of non-increasing distance from s
+             //S returns vertices in order of non-increasing distance from s
+
+	     printf("\n\n################################: ");
+	     printf("\n\nprinting S: ");
+	     printPS(S);
+	     printf("\n\n################################: ");
              while (!S.empty())
                 {
 
                     Vertex* w = S.top();
                     S.pop();
+	            printf("\n source %i \n",w->getVertexId());	
 		    
                     std::list<typename Vertex::VertexId> vertices = p[w->getVertexId()];
                     typename std::list<typename Vertex::VertexId>::iterator it;
-		     
+		    
+		    printf("Printing predecesors: ");
                     for (it = vertices.begin(); it != vertices.end(); ++it)
                     {
-			
                         typename Vertex::VertexId v = *it;
-                        delta[v] = delta[v] + ( (1 + delta[w->getVertexId()]) * (sigma[v] / sigma[w->getVertexId()]) );
-                         					 
+			double c = (sigma[v] / sigma[w->getVertexId()]) * (1.0 + delta[w->getVertexId()]);
+                        delta[v] = delta[v] + c;
+			printf(" id %i / delta: %f / sigmav: %f / sigmaw %f , ",v, delta[v], sigma[v], sigma[w->getVertexId()]);
+			
+
                     }
 		    
                     if (w->getVertexId() != s->getVertexId())
                     {
 			 betweenness[w->getVertexId()] += delta[w->getVertexId()];
+			 printf(" \n betweenness from %i is %f , \n",w->getVertexId(),betweenness[w->getVertexId()]);
                     }
                 }
             
@@ -197,15 +205,29 @@ private:
     void printPQ(std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorSmallerFirst>& S)
     {
 	std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorSmallerFirst>  pq	= S;
+	printf("[ ");
 	while (!pq.empty())
 	{
 		Vertex* v = pq.top();
-		printf("[ ");
- 		printf("%d , ", v->getVertexId() );
-		printf("] \n "); 
+ 		printf("id: %d - dist: %f /", v->getVertexId(), v->distance );
 		pq.pop();
 
 	} 
+	printf("] \n "); 
+    }
+
+     void printPS(std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorLargerFirst>& S)
+    {
+        std::priority_queue<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::vector<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*, std::allocator<graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>*> >, graphpp::BrandesNodeComparatorLargerFirst>  pq     = S;
+        printf("[ ");
+        while (!pq.empty())
+        {
+                Vertex* v = pq.top();
+                printf("id: %d ;dist: %f , \n", v->getVertexId(), v->distance );
+                pq.pop();
+
+        }
+        printf("\n] \n ");
     }
 
     BetweennessContainer betweenness;
