@@ -1596,21 +1596,21 @@ void print_graph( int v,
    }
    printf( "\n\tWriting graph to file %s.\n", out_file );
 
-   fprintf( fp, "%5d   %5d\n", v, e );
+   fprintf( fp, "%5d %5d\n", v, e );
 
    if ( !dir_flag )
       for ( i = 1; i < v; i++ )
          for ( j = i + 1; j <= v; j++ ) {
             index = ( i - 1 ) * v + j - 1;
             if ( adj_matrix[ index ] )
-               fprintf( fp, "%5d   %5d   %5d\n", i, j, adj_matrix[ index ] );
+               fprintf( fp, "%5d %5d %5d\n", i, j, adj_matrix[ index ] );
          }
    else
       for ( i = 1; i <= v; i++ )
          for ( j = 1; j <= v; j++ ) {
             index = ( i - 1 ) * v + j - 1;
             if ( adj_matrix[ index ] )
-               fprintf( fp, "%5d   %5d   %5d\n", i, j, adj_matrix[ index ] );
+               fprintf( fp, "%5d %5d %5d\n", i, j, adj_matrix[ index ] );
          }
    fclose( fp );
    printf( "\tGraph is written to file %s.\n", out_file );

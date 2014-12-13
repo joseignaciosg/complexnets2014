@@ -1002,14 +1002,8 @@ void MainWindow::on_actionShell_Index_vs_Degree_triggered()
         ui->textBrowser->append("An unexpected error has occured.\n");
 }
 
-//TODO check if betweennessVsDegree has previously calculated and avoid unnecesary computation. If not calculated save in property map
 void MainWindow::on_actionBetweenness_vs_Degree_triggered()
 {
-    //if (this->weightedgraph)
-    //{
-    //    ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
-    //    return;
-    //}
     this->computeBetweenness();
     this->computeDegreeDistribution();
     double betweennessAuxAcum;
@@ -1021,9 +1015,14 @@ void MainWindow::on_actionBetweenness_vs_Degree_triggered()
     VariantsSet::const_iterator it = degreeDistribution.begin();
     VariantsSet::const_iterator betwennessIt = betweenness.begin();
     VariantsSet::const_iterator betweennessVsDegreeIt;
+    //initialize for each degree betweenness in zero.
     while (it != degreeDistribution.end())
     {
         betweennessVsDegree.insert<double>(it->first, 0.0);
+	unsigned int degree  = from_string<unsigned int>(it->first);
+	unsigned int cant  = from_string<unsigned int>(it->second);
+        //TODO remove printf
+        printf("\n degree %i - n %i\n",degree, cant);
         ++it;
     }
 
@@ -1032,7 +1031,9 @@ void MainWindow::on_actionBetweenness_vs_Degree_triggered()
         unsigned int vertedId = from_string<unsigned int>(betwennessIt->first);
         Vertex* v = this->weightedgraph ? weightedGraph.getVertexById(vertedId) : graph.getVertexById(vertedId);
         betweennessAuxAcum = betweennessVsDegree.get_element<double>(to_string<unsigned int>(v->degree()));
-        betweennessVsDegree.insert<double>(to_string<unsigned int>(v->degree()) , betweennessAuxAcum + from_string<unsigned int>(betwennessIt->second));
+	//TODO remove printf
+	//printf("vertex id: %i - betweenness: %f \n",vertedId, );
+        betweennessVsDegree.insert<double>(to_string<unsigned int>(v->degree()) , betweennessAuxAcum + from_string<double>(betwennessIt->second));
 
         ++betwennessIt;
     }
