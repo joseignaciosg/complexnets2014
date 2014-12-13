@@ -1005,11 +1005,11 @@ void MainWindow::on_actionShell_Index_vs_Degree_triggered()
 //TODO check if betweennessVsDegree has previously calculated and avoid unnecesary computation. If not calculated save in property map
 void MainWindow::on_actionBetweenness_vs_Degree_triggered()
 {
-    if (this->weightedgraph)
-    {
-        ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
-        return;
-    }
+    //if (this->weightedgraph)
+    //{
+    //    ui->textBrowser->append("Betweenness for weighted graphs is not supported.");
+    //    return;
+    //}
     this->computeBetweenness();
     this->computeDegreeDistribution();
     double betweennessAuxAcum;

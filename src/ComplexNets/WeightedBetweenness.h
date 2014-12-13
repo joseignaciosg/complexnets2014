@@ -113,7 +113,9 @@ private:
                     {
 			printf("INSIDE \n");
 			w->distance = alt;
+			//refreshing ordering of priority queues
 			std::make_heap(const_cast<Vertex**>(&Q.top()),const_cast<Vertex**>(&Q.top()) + Q.size(),BrandesNodeComparatorSmallerFirst());
+			std::make_heap(const_cast<Vertex**>(&S.top()),const_cast<Vertex**>(&S.top()) + S.size(),BrandesNodeComparatorLargerFirst());
                         if ( wValue == INF  )
 			{
 			   Q.push(w);
