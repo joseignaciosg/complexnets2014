@@ -12,7 +12,6 @@ namespace graphpp
 {
 class BrandesNodeComparatorLargerFirst {
     public:
-    //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
 	if ( v1->distance < v2->distance )
@@ -25,7 +24,6 @@ class BrandesNodeComparatorLargerFirst {
 
 class BrandesNodeComparatorSmallerFirst {
     public:
-    //TODO try this out
     bool operator()(graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v1, graphpp::WeightedVertexAspect<graphpp::AdjacencyListVertex>* v2)
     {
         if ( v1->distance > v2->distance )
@@ -99,20 +97,12 @@ private:
 
                 while (!neighbourIter.end())
                 {
-                    //Vertex* w = *neighbourIter;
 		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
-		    //printf("neighbor %i \n",w->getVertexId());
 		    double alt = v->distance + v->edgeWeight(w);
-		    //printf("alt: %f\n",alt);
                     double wValue = w->distance;
-		    //printf("wValue: %f\n",wValue);
-
-                    //double vValue = d[v->getVertexId()];
-	            //printf("dist: %f / weight:  %f \n", v->distance, v->edgeWeight(w));
-		    //printf("alt =  %f < wValue = %f \n", alt , wValue);
-                    if ( alt < wValue )
+                    
+		    if ( alt < wValue )
                     {
-			//printf("INSIDE \n");
 			w->distance = alt;
 			//refreshing ordering of priority queues
 			std::make_heap(const_cast<Vertex**>(&Q.top()),const_cast<Vertex**>(&Q.top()) + Q.size(),BrandesNodeComparatorSmallerFirst());
@@ -122,7 +112,6 @@ private:
 			   Q.push(w);
 			}
                         sigma[w->getVertexId()] =  0.0;
-			//clearPredecessor2sOf(w);   
 			p[w->getVertexId()].clear();;
 	            }
                     //shortest path to w via v?
@@ -130,48 +119,33 @@ private:
                     {
 			sigma[w->getVertexId()] =  sigma[w->getVertexId()] + sigma[v->getVertexId()];
                         p[w->getVertexId()].push_back(v->getVertexId());
-                        
                     }
 		    
-		    //printf("neighbor distance: %f\n",w->distance); 
-		    //printf("neighbor SIGMA: %f\n",sigma[w->getVertexId()]); 
                     ++neighbourIter;
                 }
                 
 	      }
 	
                 
-             //S returns vertices in order of non-increasing distance from s
-
-	     //printf("\n\n################################: ");
-	     //printf("\n\nprinting S: ");
-	     //printPS(S);
-	     //printf("\n\n################################: ");
              while (!S.empty())
                 {
 
                     Vertex* w = S.top();
                     S.pop();
-	            //printf("\n source %i \n",w->getVertexId());	
 		    
                     std::list<typename Vertex::VertexId> vertices = p[w->getVertexId()];
                     typename std::list<typename Vertex::VertexId>::iterator it;
 		    
-		    //printf("Printing predecesors: ");
                     for (it = vertices.begin(); it != vertices.end(); ++it)
                     {
                         typename Vertex::VertexId v = *it;
 			double c = (sigma[v] / sigma[w->getVertexId()]) * (1.0 + delta[w->getVertexId()]);
                         delta[v] = delta[v] + c;
-			//printf(" id %i / delta: %f / sigmav: %f / sigmaw %f , ",v, delta[v], sigma[v], sigma[w->getVertexId()]);
-			
-
                     }
 		    
                     if (w->getVertexId() != s->getVertexId())
                     {
 			 betweenness[w->getVertexId()] += delta[w->getVertexId()];
-			 //printf(" \n betweenness from %i is %f , \n",w->getVertexId(),betweenness[w->getVertexId()]);
                     }
                 }
 	
