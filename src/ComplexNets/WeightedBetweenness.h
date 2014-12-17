@@ -49,7 +49,7 @@ public:
 
     WeightedBetweenness(Graph& g)
     {
-	printf("INSIDE WEIGHTEDBETWEENNESS\n");
+	//:printf("INSIDE WEIGHTEDBETWEENNESS\n");
         initMap(g, 1, betweenness, 0.0, 0.0);
         calculateBetweenness(g);
     }
@@ -65,9 +65,10 @@ private:
 
     void calculateBetweenness(Graph& g)
     {
-	printf("CALCULATING BETWEENNESS INSIDE WEIGHTEDBETWEENNESS\n");
+	//printf("CALCULATING BETWEENNESS INSIDE WEIGHTEDBETWEENNESS\n");
         VerticesIterator iter = g.verticesIterator();
-
+        int n = g.verticesCount();
+        int i = 1;
         while (!iter.end())
         {
             Vertex* s = *iter;
@@ -87,31 +88,31 @@ private:
 
             while (!Q.empty())
             {
-		printPQ(Q);
+		//printPQ(Q);
                 Vertex* v = Q.top();
 		Q.pop();
                 S.push(v);
 
                 //iterate through v's neighbors
                 NeighbourIterator neighbourIter = v->neighborsIterator();
-		printf("source %i \n",v->getVertexId());
+		//printf("source %i \n",v->getVertexId());
 
                 while (!neighbourIter.end())
                 {
                     //Vertex* w = *neighbourIter;
 		    Vertex* w = static_cast<Vertex*>(*neighbourIter);
-		    printf("neighbor %i \n",w->getVertexId());
+		    //printf("neighbor %i \n",w->getVertexId());
 		    double alt = v->distance + v->edgeWeight(w);
 		    //printf("alt: %f\n",alt);
                     double wValue = w->distance;
 		    //printf("wValue: %f\n",wValue);
 
                     //double vValue = d[v->getVertexId()];
-	            printf("dist: %f / weight:  %f \n", v->distance, v->edgeWeight(w));
-		    printf("alt =  %f < wValue = %f \n", alt , wValue);
+	            //printf("dist: %f / weight:  %f \n", v->distance, v->edgeWeight(w));
+		    //printf("alt =  %f < wValue = %f \n", alt , wValue);
                     if ( alt < wValue )
                     {
-			printf("INSIDE \n");
+			//printf("INSIDE \n");
 			w->distance = alt;
 			//refreshing ordering of priority queues
 			std::make_heap(const_cast<Vertex**>(&Q.top()),const_cast<Vertex**>(&Q.top()) + Q.size(),BrandesNodeComparatorSmallerFirst());
@@ -132,8 +133,8 @@ private:
                         
                     }
 		    
-		    printf("neighbor distance: %f\n",w->distance); 
-		    printf("neighbor SIGMA: %f\n",sigma[w->getVertexId()]); 
+		    //printf("neighbor distance: %f\n",w->distance); 
+		    //printf("neighbor SIGMA: %f\n",sigma[w->getVertexId()]); 
                     ++neighbourIter;
                 }
                 
@@ -142,27 +143,27 @@ private:
                 
              //S returns vertices in order of non-increasing distance from s
 
-	     printf("\n\n################################: ");
-	     printf("\n\nprinting S: ");
-	     printPS(S);
-	     printf("\n\n################################: ");
+	     //printf("\n\n################################: ");
+	     //printf("\n\nprinting S: ");
+	     //printPS(S);
+	     //printf("\n\n################################: ");
              while (!S.empty())
                 {
 
                     Vertex* w = S.top();
                     S.pop();
-	            printf("\n source %i \n",w->getVertexId());	
+	            //printf("\n source %i \n",w->getVertexId());	
 		    
                     std::list<typename Vertex::VertexId> vertices = p[w->getVertexId()];
                     typename std::list<typename Vertex::VertexId>::iterator it;
 		    
-		    printf("Printing predecesors: ");
+		    //printf("Printing predecesors: ");
                     for (it = vertices.begin(); it != vertices.end(); ++it)
                     {
                         typename Vertex::VertexId v = *it;
 			double c = (sigma[v] / sigma[w->getVertexId()]) * (1.0 + delta[w->getVertexId()]);
                         delta[v] = delta[v] + c;
-			printf(" id %i / delta: %f / sigmav: %f / sigmaw %f , ",v, delta[v], sigma[v], sigma[w->getVertexId()]);
+			//printf(" id %i / delta: %f / sigmav: %f / sigmaw %f , ",v, delta[v], sigma[v], sigma[w->getVertexId()]);
 			
 
                     }
@@ -170,11 +171,14 @@ private:
                     if (w->getVertexId() != s->getVertexId())
                     {
 			 betweenness[w->getVertexId()] += delta[w->getVertexId()];
-			 printf(" \n betweenness from %i is %f , \n",w->getVertexId(),betweenness[w->getVertexId()]);
+			 //printf(" \n betweenness from %i is %f , \n",w->getVertexId(),betweenness[w->getVertexId()]);
                     }
                 }
+	
+	    printf( "Progress: %.2f% \n",  (double)i/(double)n * 100.0 ); 
             
             ++iter;
+	    ++i;
         }
     }
 
